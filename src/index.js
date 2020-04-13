@@ -1,13 +1,48 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { Provider } from 'react-redux';
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
+import { applyMiddleware, compose, createStore } from 'redux';
+import { createFirestoreInstance, getFirestore, reduxFirestore } from 'redux-firestore';
+import thunk from 'redux-thunk';
 import App from './App';
+import firebase from './config/firebaseConfig';
+import './index.css';
 import * as serviceWorker from './serviceWorker';
+import reducers from './store/reducers/reducers';
+
+const initialState = {} // set initial state here
+
+const store = createStore(reducers,
+  initialState,
+  compose(
+    applyMiddleware(thunk.withExtraArgument({ getFirestore })),
+    reduxFirestore(firebase)
+  ));
+
+
+
+const rrfConfig = {
+  userProfile: 'users',
+  presence: 'presence', // where list of online users is stored in database
+  sessions: 'sessions', // where list of user sessions is stored in database (presence must be enabled)
+  useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
+}
+const rrfProps = {
+  firebase,
+  config: rrfConfig,
+  dispatch: store.dispatch,
+  createFirestoreInstance,
+  initializeAuth: true
+}
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+
+  <Provider store={store}>
+    <ReactReduxFirebaseProvider {...rrfProps}>
+      <App />
+    </ReactReduxFirebaseProvider>
+  </Provider>,
   document.getElementById('root')
 );
 
