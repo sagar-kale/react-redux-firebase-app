@@ -2,6 +2,7 @@ import firebase from '../../config/firebaseConfig';
 
 export const signInAction = (credential) => {
     return (dispatch) => {
+        dispatch({ type: 'LOGIN_REQUEST' });
         firebase
             .auth()
             .signInWithEmailAndPassword(credential.email, credential.password)
@@ -10,12 +11,14 @@ export const signInAction = (credential) => {
             })
             .catch(err => {
                 dispatch({ type: 'LOGIN_ERROR', err });
-            })
+            });
     }
 }
 
 export const register = (user) => {
     return (dispatch, getState, { getFirestore }) => {
+
+        dispatch({ type: 'SIGNUP_REQUEST' });
 
         const store = getFirestore();
         firebase.auth().createUserWithEmailAndPassword(user.email, user.password)

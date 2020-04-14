@@ -1,5 +1,9 @@
 export const createProject = (project) => {
+
     return (dispatch, getState, { getFirestore }) => {
+
+        dispatch({ type: 'CREATE_PROJECT_REQ' })
+
         const user = getState().firebase.profile;
         const firestore = getFirestore();
         firestore.collection('projects').add({

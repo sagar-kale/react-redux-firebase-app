@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { register } from '../../store/actions/authActions'
 import { Redirect } from 'react-router-dom';
+import { register } from '../../store/actions/authActions';
+import ToggleButton from '../decoration/ToggleButton';
 
 class SignUp extends Component {
     state = {
@@ -25,7 +26,7 @@ class SignUp extends Component {
     }
 
     render() {
-        const { authError, user } = this.props;
+        const { authError, user, isLoading } = this.props;
         if (user.uid) {
             return (
                 <Redirect to='/' />
@@ -37,22 +38,23 @@ class SignUp extends Component {
                     <h5 className="gray-text text-darken-3">Sign Up</h5>
                     <div className="input-field">
                         <label htmlFor="email">Email</label>
-                        <input type="email" id="email" onChange={this.handleChange} />
+                        <input type="email" id="email" onChange={this.handleChange} required />
                     </div>
                     <div className="input-field">
                         <label htmlFor="password">Password</label>
-                        <input type="password" id="password" onChange={this.handleChange} />
+                        <input type="password" id="password" onChange={this.handleChange} required />
                     </div>
                     <div className="input-field">
                         <label htmlFor="firstName">First Name</label>
-                        <input type="text" id="firstName" onChange={this.handleChange} />
+                        <input type="text" id="firstName" onChange={this.handleChange} required />
                     </div>
                     <div className="input-field">
                         <label htmlFor="lastName">Last Name</label>
-                        <input type="text" id="lastName" onChange={this.handleChange} />
+                        <input type="text" id="lastName" onChange={this.handleChange} required />
                     </div>
                     <div className="input-field">
-                        <button className="btn pink lighten-1 z-depth-0">Register</button>
+                        <ToggleButton btnName="Register" disableBtnName="Registering new user..." isLoading={isLoading} />
+
                         <div className="red-text">
                             <p>{authError?.message}</p>
                         </div>
@@ -66,7 +68,8 @@ class SignUp extends Component {
 const mapStateToProps = (state) => {
     return {
         authError: state.auth.authError,
-        user: state.firebase.auth
+        user: state.firebase.auth,
+        isLoading: state.auth.isLoading
     }
 };
 

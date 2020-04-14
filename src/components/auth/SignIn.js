@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { signInAction } from '../../store/actions/authActions'
 import { Redirect } from 'react-router-dom';
+import { signInAction } from '../../store/actions/authActions';
+import ToggleButton from '../decoration/ToggleButton';
 class SignIn extends Component {
     state = {
         email: '',
@@ -21,7 +22,7 @@ class SignIn extends Component {
     }
 
     render() {
-        const { authError, user } = this.props;
+        const { authError, user, isLoading } = this.props;
         if (user.uid) {
             return (
                 <Redirect to='/' />
@@ -34,14 +35,14 @@ class SignIn extends Component {
                     <h5 className="gray-text text-darken-3">Sign In</h5>
                     <div className="input-field">
                         <label htmlFor="email">Email</label>
-                        <input type="email" id="email" onChange={this.handleChange} />
+                        <input type="email" id="email" onChange={this.handleChange} required />
                     </div>
                     <div className="input-field">
                         <label htmlFor="password">Password</label>
-                        <input type="password" id="password" onChange={this.handleChange} />
+                        <input type="password" id="password" onChange={this.handleChange} required />
                     </div>
                     <div className="input-field">
-                        <button className="btn pink lighten-1 z-depth-0">Login</button>
+                        <ToggleButton btnName="Login" disableBtnName="Logging in..." isLoading={isLoading} />
                         <div className="red-text">
                             <p>{authError?.message}</p>
                         </div>
@@ -55,7 +56,8 @@ class SignIn extends Component {
 const mapStateToProps = (state) => {
     return {
         authError: state.auth.authError,
-        user: state.firebase.auth
+        user: state.firebase.auth,
+        isLoading: state.auth.isLoading
     }
 };
 

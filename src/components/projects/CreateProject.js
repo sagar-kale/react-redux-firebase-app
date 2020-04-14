@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { createProject } from '../../store/actions/productActions';
+import ToggleButton from '../decoration/ToggleButton';
 
 class CreateProject extends Component {
     state = {
@@ -33,7 +34,7 @@ class CreateProject extends Component {
                     <h5 className="gray-text text-darken-3">Create New Project</h5>
                     <div className="input-field">
                         <label htmlFor="title">Project Title</label>
-                        <input type="text" id="title" onChange={this.handleChange} />
+                        <input type="text" id="title" onChange={this.handleChange} required minLength="5" maxLength="40" />
                     </div>
                     <div className="input-field">
                         <label htmlFor="content">Project Content</label>
@@ -41,17 +42,17 @@ class CreateProject extends Component {
                             onChange={this.handleChange}></textarea>
                     </div>
                     <div className="input-field">
-                        <button className="btn pink lighten-1 z-depth-0">Create</button>
+                        <ToggleButton btnName="Create" disableBtnName="Creating Project..." isLoading={this.props.isLoading} />
                     </div>
                 </form>
             </div>
         )
     }
 }
-// const mapStateToProps = (state) => {
-//     console.log('under comp create pr',state);
-//     return {
-//         project: state.project
-//     }
-// }
-export default connect(null, { createProject })(CreateProject);
+const mapStateToProps = (state) => {
+    // console.log('under comp create pr', state);
+    return {
+        isLoading: state.project.isLoading
+    }
+}
+export default connect(mapStateToProps, { createProject })(CreateProject);
