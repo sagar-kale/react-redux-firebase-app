@@ -8,13 +8,13 @@ const authReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case 'LOGIN_SUCESS':
-            console.log('succ', action.user)
+            //      console.log('succ', action.user)
             return { ...state, ...action.user, authError: null };
         case 'LOGIN_ERROR':
             console.log('login err', action.err);
             return { ...state, authError: action.err };
         case 'SINGOUT_SUCESS':
-            console.log('success');
+            //    console.log('success');
             return { ...state, authError: null, user: null };
         case 'CURRENT_USER':
             return { ...state, user: action.user };
