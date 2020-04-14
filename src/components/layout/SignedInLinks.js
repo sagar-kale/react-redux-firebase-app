@@ -8,7 +8,7 @@ const SignedInLinks = (props) => {
     useEffect(() => {
         const M = window.M;
         var elems = document.querySelectorAll('.sidenav');
-        var instances = M.Sidenav.init(elems, {});
+        M.Sidenav.init(elems, {});
     }, [])
 
     const { user } = props;
@@ -16,9 +16,9 @@ const SignedInLinks = (props) => {
     return (
         <div>
             <ul className="right hide-on-med-and-down">
-                <li><NavLink activeClassName="active" to='/create'>New Project</NavLink></li>
-                <li><a href="/#" onClick={props.logOut}>Logout</a></li>
-                <li><NavLink activeClassName="active" to='/' className="btn btn-floating pink lighten-1">{user.initials}</NavLink></li>
+                <li><NavLink className="waves-effect" to='/create'>New Project</NavLink></li>
+                <li><a href="/#" className="waves-effect" onClick={props.logOut}>Logout</a></li>
+                <li><NavLink to='/' className="btn btn-floating pink lighten-1 waves-effect">{user.initials}</NavLink></li>
             </ul>
             <ul id="slide-out" className="sidenav">
                 <li><div className="user-view">
@@ -29,12 +29,12 @@ const SignedInLinks = (props) => {
                     <span className="white-text name">{user.firstName} {user.lastName}</span>
                     <span className="white-text email">{user.email}</span>
                 </div></li>
-                <li><NavLink activeClassName="active" to='/'>Home</NavLink></li>
-                <li><NavLink activeClassName="active" to='/create'>New Project</NavLink></li>
-                <li><a href="/#" onClick={props.logOut}>Logout</a></li>
+                <li><NavLink className="waves-effect" to='/'>Home</NavLink></li>
+                <li><NavLink className="waves-effect" to='/create'>New Project</NavLink></li>
+                <li><NavLink to="/" className="waves-effect" onClick={props.logOut}>Logout</NavLink></li>
                 <li><div className="divider"></div></li>
-                <li><a href="!#" className="subheader">Subheader</a></li>
-                <li><a className="waves-effect" href="#!">Third Link With Waves</a></li>
+                <li><a href="!#" className="subheader">Extra Links</a></li>
+                <li><a className="waves-effect" href="#!">About Us</a></li>
             </ul>
         </div>
     )

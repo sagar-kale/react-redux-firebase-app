@@ -6,14 +6,14 @@ const SignedOutLinks = () => {
     useEffect(() => {
         const M = window.M;
         var elems = document.querySelectorAll('.sidenav');
-        var instances = M.Sidenav.init(elems, {});
+        M.Sidenav.init(elems, {});
     }, [])
 
     return (
         <div>
             <ul className="right hide-on-med-and-down">
-                <li><NavLink activeClassName="active" to='/signin'>Login</NavLink></li>
-                <li><NavLink to='/signup'>Sign Up</NavLink></li>
+                <li><NavLink className="waves-effect" to='/signin'>Login</NavLink></li>
+                <li><NavLink className="waves-effect" to='/signup'>Sign Up</NavLink></li>
 
             </ul>
             <ul id="slide-out" className="sidenav">
@@ -24,13 +24,13 @@ const SignedOutLinks = () => {
                     <img className="circle" src="img/yuna.jpg" alt="yuna" />
                     <span className="white-text name">Welcome Guest</span>
                 </div></li>
-                <li><NavLink activeClassName="active" to='/'>Home</NavLink></li>
-                <li><NavLink activeClassName="active" to='/signin'>Login</NavLink></li>
-                <li><NavLink to='/signup'>Sign Up</NavLink></li>
+                <li><NavLink className="waves-effect" to='/'>Home</NavLink></li>
+                <li><NavLink className="waves-effect" to='/signin'>Login</NavLink></li>
+                <li><NavLink className="waves-effect" to='/signup'>Sign Up</NavLink></li>
 
                 <li><div className="divider"></div></li>
-                <li><a href="!#" className="subheader">Subheader</a></li>
-                <li><a className="waves-effect" href="#!">Third Link With Waves</a></li>
+                <li><a href="!#" className="subheader">Extra</a></li>
+                <li><a className="waves-effect" href="#!">About Us</a></li>
             </ul>
         </div>
     )
