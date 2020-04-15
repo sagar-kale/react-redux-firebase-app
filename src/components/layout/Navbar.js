@@ -1,14 +1,15 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Loader from './Loader';
 import SignedInLinks from './SignedInLinks';
 import SignedOutLinks from './SignedOutLinks';
-import Loader from './Loader';
 
 
-const Navbar = (props) => {
+const Navbar = () => {
 
-    const { user, isLoading } = props;
+    const isLoading = useSelector(state => state.auth.isLoading);
+    const user = useSelector(state => state.firebase.profile);
 
     return (
         <div>
@@ -25,12 +26,12 @@ const Navbar = (props) => {
     )
 }
 
-const mapStateToProps = (state) => {
-    // console.log('nav', state);
-    return {
-        user: state.firebase.profile,
-        isLoading: state.auth.isLoading
-    };
-}
+// const mapStateToProps = (state) => {
+//     // console.log('nav', state);
+//     return {
+//         user: state.firebase.profile,
+//         isLoading: state.auth.isLoading
+//     };
+// }  // using hook
 
-export default connect(mapStateToProps)(Navbar);
+export default Navbar;
