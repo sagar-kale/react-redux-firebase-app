@@ -17,9 +17,8 @@ const Notifications = () => {
     const error = useSelector(state => state.firestore.errors.byQuery[getQueryName(notificationsQuery())]);
     const notifications = useSelector(state => state.firestore.ordered.notifications);
 
-
-
     if (!isLoaded(notifications) && !error) return <Loader />
+
     return (
         <div className="section">
             <div className="card z-depth-0">
