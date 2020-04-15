@@ -24,9 +24,9 @@ const SignedOutLinks = () => {
                     <img className="circle" src="img/yuna.jpg" alt="yuna" />
                     <span className="white-text name">Welcome Guest</span>
                 </div></li>
-                <li><NavLink className="waves-effect" to='/'>Home</NavLink></li>
-                <li><NavLink className="waves-effect" to='/signin'>Login</NavLink></li>
-                <li><NavLink className="waves-effect" to='/signup'>Sign Up</NavLink></li>
+                <li><NavLink className="waves-effect sidenav-close" to='/'>Home</NavLink></li>
+                <li><NavLink className="waves-effect sidenav-close" to='/signin'>Login</NavLink></li>
+                <li><NavLink className="waves-effect sidenav-close" to='/signup'>Sign Up</NavLink></li>
 
                 <li><div className="divider"></div></li>
                 <li><a href="!#" className="subheader">Extra</a></li>
