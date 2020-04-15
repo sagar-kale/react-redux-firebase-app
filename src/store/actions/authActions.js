@@ -1,4 +1,5 @@
 import firebase from '../../config/firebaseConfig';
+import { actionTypes } from 'redux-firestore/es/constants';
 
 export const signInAction = (credential) => {
     return (dispatch) => {
@@ -52,7 +53,7 @@ export const register = (user) => {
 export const logOut = () => {
     return async (dispatch) => {
         await firebase.auth().signOut();
-        dispatch({ type: 'SINGOUT_SUCESS', user: null });
+        dispatch({ type: actionTypes.CLEAR_DATA, preserve: { ordered: ['projects'] } })
     }
 }
 
