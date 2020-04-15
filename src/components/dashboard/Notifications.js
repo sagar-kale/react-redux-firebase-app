@@ -1,9 +1,9 @@
-import React from 'react';
 import moment from 'moment';
-import { isEmpty, useFirebaseConnect, isLoaded, useFirestoreConnect } from 'react-redux-firebase';
-import Loader from '../layout/Loader';
+import React from 'react';
 import { useSelector } from 'react-redux';
+import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 import { getQueryName } from 'redux-firestore/es/utils/query';
+import Loader from '../layout/Loader';
 
 const Notifications = () => {
 

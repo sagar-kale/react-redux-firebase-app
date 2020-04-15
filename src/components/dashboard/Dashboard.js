@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { firestoreConnect, isLoaded } from 'react-redux-firebase';
 import { compose } from 'redux';
-import { getQueryName } from 'redux-firestore/es/utils/query';
-import ProjectList from '../projects/ProjectList';
-import Notifications from './Notifications';
 import { Pagination } from '../decoration/Pagination';
 import Loader from '../layout/Loader';
+import ProjectList from '../projects/ProjectList';
+import Notifications from './Notifications';
 
 class Dashboard extends Component {
     state = {

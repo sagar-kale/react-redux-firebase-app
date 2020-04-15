@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { NavLink, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import { logOut } from '../../store/actions/authActions';
 
 const SignedInLinks = (props) => {
