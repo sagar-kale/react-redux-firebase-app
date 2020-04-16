@@ -9,10 +9,11 @@ import CreateProject from './components/projects/CreateProject';
 import { useSelector } from 'react-redux';
 import { isLoaded, isEmpty } from 'react-redux-firebase';
 import Loader from './components/layout/Loader';
+import OnlineUsers from './components/layout/OnlineUsers';
 
 function AuthIsLoaded({ children }) {
   const auth = useSelector(state => state.firebase.auth)
-  if (!isLoaded(auth)) return <Loader/> ;
+  if (!isLoaded(auth)) return <Loader />;
   return children
 }
 
@@ -50,6 +51,7 @@ function App() {
             <PrivateRoute>
               <Route path='/project/:id' component={ProjectDetails} />
               <Route path='/create' component={CreateProject} />
+              <Route path='/chat' component={OnlineUsers} />
             </PrivateRoute>
           </Switch>
         </div>

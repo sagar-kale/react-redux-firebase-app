@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { logOut } from '../../store/actions/authActions';
+import { UserStatus } from './UserStatus';
 
 const SignedInLinks = (props) => {
 
@@ -11,12 +12,17 @@ const SignedInLinks = (props) => {
         M.Sidenav.init(elems, {});
     }, [])
 
+
+
     const { user } = props;
     //console.log(user);
     return (
+
         <div>
+            {user && <UserStatus user={user} />}
             <ul className="right hide-on-med-and-down">
                 <li><NavLink className="waves-effect" to='/create'>New Project</NavLink></li>
+                <li><NavLink className="waves-effect" to='/chat'>Chat</NavLink></li>
                 <li><a href="/#" className="waves-effect" onClick={props.logOut}>Logout</a></li>
                 <li><NavLink to='/' className="btn btn-floating pink lighten-1 waves-effect">{user.initials}</NavLink></li>
             </ul>
@@ -31,6 +37,7 @@ const SignedInLinks = (props) => {
                 </div></li>
                 <li><NavLink className="waves-effect sidenav-close" to='/'>Home</NavLink></li>
                 <li><NavLink className="waves-effect sidenav-close" to='/create'>New Project</NavLink></li>
+                <li><NavLink className="waves-effect sidenav-close" to='/chat'>Chat</NavLink></li>
                 <li><NavLink to="/" className="waves-effect sidenav-close" onClick={props.logOut}>Logout</NavLink></li>
                 <li><div className="divider"></div></li>
                 <li><a href="!#" className="subheader">Extra Links</a></li>

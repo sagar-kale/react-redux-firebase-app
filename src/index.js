@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { createFirestoreInstance, getFirestore, reduxFirestore } from 'redux-firestore';
-import { actionTypes } from 'redux-firestore/es/constants';
 import thunk from 'redux-thunk';
 import App from './App';
 import firebase from './config/firebaseConfig';
@@ -26,7 +25,7 @@ const store = createStore(reducers,
 const rrfConfig = {
   userProfile: 'users',
   presence: 'presence', // where list of online users is stored in database
-  sessions: 'sessions', // where list of user sessions is stored in database (presence must be enabled)
+  //sessions: 'sessions', // where list of user sessions is stored in database (presence must be enabled)
   useFirestoreForProfile: true, // Firestore for Profile instead of Realtime DB
  /* onAuthStateChanged: (authData, firebase, dispatch) => { //After signout clering store and preserving projects collection data
     if (!authData) {

@@ -16,6 +16,7 @@ const Navbar = () => {
             <nav className="nav-wrapper grey darken-3" >
 
                 <div className="container" >
+
                     <a href="/#" data-target="slide-out" className="sidenav-trigger"><i className="material-icons">menu</i></a>
                     <Link to='/' className="brand-logo" > Firebase App </Link>
                     {user.isEmpty ? <SignedOutLinks /> : <SignedInLinks user={user} />}
