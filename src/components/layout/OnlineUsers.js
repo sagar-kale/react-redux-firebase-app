@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 import firebase from '../../config/firebaseConfig';
 import './onlineuser.scss';
+import moment from 'moment';
 
 const OnlineUsers = () => {
 
@@ -12,58 +13,29 @@ const OnlineUsers = () => {
     useFirestoreConnect(allUsersQuery);
 
     const user = useSelector(state => state.firebase.profile);
-    const [changed, setChanged] = useState(false);
 
     const dispatch = useDispatch();
     const onlineUsers = useSelector(state => state.presence.onlineUsers);
     const allUsers = useSelector(state => state.firestore.ordered.users);
 
-    const getUser = (uid) => {
-        const u = allUsers.filter(u => u.uid === uid);
-        return `${u[0].firstName}  ${u[0].lastName}`;
-    }
 
     useEffect(() => {
         if (isLoaded(user)) {
             const userRef = firebase.database().ref(`presence`);
-            let usrs = [];
             userRef.on('value', (snap) => {
-                //    var totalRecord = snap.numChildren();
+                const usersObject = snap.val()
+                if (usersObject) {
+                    const userList = Object.keys(usersObject).map(key => ({
+                        ...usersObject[key],
+                        uid: key
+                    }));
+                    dispatch({ type: 'USERS_FETCH_SUCCESS', onlineUsers: userList });
+                }
 
-                //    console.log("Total Record : " + totalRecord);
-
-                snap.forEach(function (user) {
-                    const uid = user.key;
-                    const status = user.val().status;
-                    // ...
-                    if (usrs.length === 0) usrs.push({ uid, status });
-                    const usr = usrs.find(user => user.uid === uid);
-
-                    if (usrs.indexOf(usr) === -1) {
-                        usrs.push({ uid, status });
-                        if (changed === true)
-                            setChanged(false);
-                        setChanged(true);
-                    }
-                    else {
-                        usr.status = status;
-                        const indexOfUsr = usrs.indexOf(usr)
-                        if (indexOfUsr !== -1) {
-                            usrs[indexOfUsr] = usr;
-                            if (changed === true)
-                                setChanged(false);
-                            setChanged(true);
-                        }
-
-                    }
-
-                    //({ uid, status });
-                });
-                dispatch({ type: 'USERS_FETCH_SUCCESS', onlineUsers: usrs });
             });
         }
 
-    }, [user, dispatch, changed])
+    }, [user, dispatch])
 
     const getClassByStatus = (status) => {
         if (status === "★ online") {
@@ -75,20 +47,31 @@ const OnlineUsers = () => {
         }
     }
 
+    const getPropertyValue = (uid, propertyName) => {
+        const u = allUsers.filter(u => u.uid === uid);
+        if (u.length !== 1)
+            return;
+        switch (propertyName) {
+            case 'FULLNAME':
+                return `${u[0].firstName}  ${u[0].lastName}`;
+            default:
+                return;
+        }
+    }
     //setUsers(usrs);
 
-    //  console.log('user status', onlineUsers);
+    //console.log('user status', onlineUsers);
 
     return (
         <div className="container dashboard">
             <div className="row">
-                <div className="col s12 m4">
+                <div className="col s12 l4">
 
                     <div className="section">
                         <div className="card z-depth-0">
                             <div className="card-content">
                                 <span className="card-title">List of users</span>
-                                <ul className="notifications">
+                                <ul>
                                     {onlineUsers && onlineUsers.map(ou => {
                                         return (
                                             <li key={ou.uid}>
@@ -98,10 +81,13 @@ const OnlineUsers = () => {
 
                                                     </div>
                                                     <div className="col s9">
-                                                        <span className="pink-text">{getUser(ou.uid)}</span>
+                                                        <span className="pink-text">{ou && getPropertyValue(ou.uid, 'FULLNAME')}</span>
                                                     </div>
-                                                    <span className={`note-date ${getClassByStatus(ou.status)}`}>
+                                                    <span className={`note-date ${ou && getClassByStatus(ou.status)}`}>
                                                         {ou.status}</span>
+                                                    <div>
+                                                        <small className="note-date gray-text">
+                                                            {ou.lastOnline && moment(new Date(ou.lastOnline)).fromNow()}</small></div>
                                                 </div>
 
 
@@ -115,7 +101,7 @@ const OnlineUsers = () => {
                     </div>
                 </div>
 
-                <div className="col s12 m7 offset-m1">
+                <div className="col s12 m12 l7 offset-l1">
 
                     <div className="section">
                         <div className="card z-depth-0">
