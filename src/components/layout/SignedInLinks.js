@@ -23,7 +23,7 @@ const SignedInLinks = (props) => {
             <ul className="right hide-on-med-and-down">
                 <li><NavLink className="waves-effect" to='/create'>New Project</NavLink></li>
                 <li><NavLink className="waves-effect" to='/chat'>Chat</NavLink></li>
-                <li><a href="/#" className="waves-effect" onClick={props.logOut}>Logout</a></li>
+                <li><a href="/" className="waves-effect" onClick={props.logOut}>Logout</a></li>
                 <li><NavLink to='/' className="btn btn-floating pink lighten-1 waves-effect">{user.initials}</NavLink></li>
             </ul>
             <ul id="slide-out" className="sidenav">
@@ -38,7 +38,7 @@ const SignedInLinks = (props) => {
                 <li><NavLink className="waves-effect sidenav-close" to='/'>Home</NavLink></li>
                 <li><NavLink className="waves-effect sidenav-close" to='/create'>New Project</NavLink></li>
                 <li><NavLink className="waves-effect sidenav-close" to='/chat'>Chat</NavLink></li>
-                <li><NavLink to="/" className="waves-effect sidenav-close" onClick={props.logOut}>Logout</NavLink></li>
+                <li><a href="/" className="waves-effect sidenav-close" onClick={props.logOut}>Logout</a></li>
                 <li><div className="divider"></div></li>
                 <li><a href="!#" className="subheader">Extra Links</a></li>
                 <li><a className="waves-effect" href="#!">About Us</a></li>

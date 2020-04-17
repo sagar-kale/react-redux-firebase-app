@@ -52,13 +52,6 @@ export const register = (user) => {
 
 export const logOut = () => {
     return async (dispatch, getState) => {
-        const state = getState();
-        const uid = state.firebase.profile.uid;
-        //    console.log('current uid', uid);
-        const userRef = firebase.database().ref(`presence/${uid}`);
-        userRef.set({ status: '☆ offline' });
-        const lastSeenRef = firebase.database().ref(`presence/${uid}/lastOnline`);
-        lastSeenRef.set(firebase.database.ServerValue.TIMESTAMP);
 
         await firebase.auth().signOut();
 
