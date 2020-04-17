@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import moment from 'moment';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 import firebase from '../../config/firebaseConfig';
 import './onlineuser.scss';
-import moment from 'moment';
 
 const OnlineUsers = () => {
 
