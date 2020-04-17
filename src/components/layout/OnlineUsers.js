@@ -16,6 +16,7 @@ const OnlineUsers = () => {
     const dispatch = useDispatch();
     const onlineUsers = useSelector(state => state.presence.onlineUsers);
     const allUsers = useSelector(state => state.firestore.ordered.users);
+   // const allUserAccessErrors = useSelector(state => state.firestore.errors.byQuery[allUsersQuery()]);
 
 
     useEffect(() => {
@@ -47,6 +48,8 @@ const OnlineUsers = () => {
     }
 
     const getPropertyValue = (uid, propertyName) => {
+        if (!allUsers)
+            return;
         const u = allUsers.filter(u => u.uid === uid);
         if (u.length !== 1)
             return;
