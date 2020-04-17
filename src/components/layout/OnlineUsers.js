@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 import firebase from '../../config/firebaseConfig';
-import './onlineuser.scss';
 
 const OnlineUsers = () => {
 
