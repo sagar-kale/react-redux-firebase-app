@@ -51,8 +51,15 @@ export const register = (user) => {
 
 
 export const logOut = () => {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const uid = state.firebase.profile.uid;
+    //    console.log('current uid', uid);
+        const userRef = firebase.database().ref(`presence/${uid}`);
+        firebase.database().ref(`presence/${uid}/lastOnline`).set(firebase.database.ServerValue.TIMESTAMP);
+        userRef.set({ status: '☆ offline' });
         await firebase.auth().signOut();
+
         dispatch({ type: actionTypes.CLEAR_DATA, preserve: { ordered: ['projects'] } })
     }
 }

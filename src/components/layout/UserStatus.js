@@ -17,7 +17,7 @@ export const UserStatus = (props) => {
     const connected = firebase.database().ref('.info/connected');
     connected.on('value', (snap) => {
         if (snap.val() === true) {
-         //   console.log('user is online');
+            //   console.log('user is online');
             // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
             userRef.set({ status: '★ online' })
             // When I disconnect, remove this device
@@ -34,7 +34,7 @@ export const UserStatus = (props) => {
     });
 
     if (away) {
-       // console.log('setting away status in fire database');
+        // console.log('setting away status in fire database');
         userRef.set({ status: '☄ away' });
     }
 
@@ -48,12 +48,12 @@ export const UserStatus = (props) => {
     }
 
     const onIdle = () => {
-       // console.log('setting away in state ');
+        // console.log('setting away in state ');
         setAway(true);
     }
 
 
-   // const { user } = props;
+    // const { user } = props;
 
 
     return (
