@@ -7,15 +7,17 @@ import firebase from '../../config/firebaseConfig';
 const OnlineUsers = () => {
 
     const allUsersQuery = () => ({
-        collection: 'users'
+        collection: 'users',
+        orderBy: ['createdAt', 'desc']
     });
     useFirestoreConnect(allUsersQuery);
 
     const user = useSelector(state => state.firebase.profile);
+    const allUsers = useSelector(state => state.firestore.ordered.users);
 
     const dispatch = useDispatch();
     const onlineUsers = useSelector(state => state.presence.onlineUsers);
-    const allUsers = useSelector(state => state.firestore.ordered.users);
+  
    // const allUserAccessErrors = useSelector(state => state.firestore.errors.byQuery[allUsersQuery()]);
 
 

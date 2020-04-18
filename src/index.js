@@ -13,9 +13,11 @@ import reducers from './store/reducers/reducers';
 
 const initialState = {} // set initial state here
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const store = createStore(reducers,
   initialState,
-  compose(
+  composeEnhancers(
     applyMiddleware(thunk.withExtraArgument({ getFirestore })),
     reduxFirestore(firebase)
   ));
@@ -27,11 +29,11 @@ const rrfConfig = {
   presence: 'presence', // where list of online users is stored in database
   //sessions: 'sessions', // where list of user sessions is stored in database (presence must be enabled)
   useFirestoreForProfile: true, // Firestore for Profile instead of Realtime DB
- /* onAuthStateChanged: (authData, firebase, dispatch) => { //After signout clering store and preserving projects collection data
-    if (!authData) {
-      dispatch({ type: actionTypes.CLEAR_DATA, preserve: { ordered: ['projects'] } })
-    }
-  } */ // defined clear_data on signout action authActionos.js rather than here
+  /* onAuthStateChanged: (authData, firebase, dispatch) => { //After signout clering store and preserving projects collection data
+     if (!authData) {
+       dispatch({ type: actionTypes.CLEAR_DATA, preserve: { ordered: ['projects'] } })
+     }
+   } */ // defined clear_data on signout action authActionos.js rather than here
 }
 const rrfProps = {
   firebase,

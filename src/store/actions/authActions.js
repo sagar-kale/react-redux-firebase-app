@@ -70,16 +70,20 @@ const updateUserData = ({
     uid,
     email,
     photoURL,
-    emailVerified
+    emailVerified,
+    metadata
 }, store) => {
-
+    //console.log(metadata);
     const userRef = store.doc(`users/${uid}`);
+    metadata = { ...metadata };
 
     const data = {
         uid,
         email,
         photoURL,
-        emailVerified
+        emailVerified,
+        createdAt: metadata.creationTime,
+        lastLoginAt: metadata.lastSignInTime
     };
     //  console.log('data from new obj::', data);
     userRef.set(data, { merge: true });
