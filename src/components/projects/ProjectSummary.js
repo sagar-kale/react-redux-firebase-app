@@ -39,7 +39,7 @@ const ProjectSummary = withRouter((props) => {
     return (
 
         <div className="card z-depth-0 project-summary">
-            <div class="card-panel hoverable">
+            <div className="card-panel hoverable">
                 <div className="card-content gray-text text-darken-3">
 
                     <span className="card-title">

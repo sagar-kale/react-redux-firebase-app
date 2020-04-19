@@ -1,27 +1,34 @@
 import moment from 'moment';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { firestoreConnect, useFirestoreConnect } from 'react-redux-firebase';
 import { toast } from 'react-toastify';
 import { compose } from 'redux';
-import PageHeader from '../decoration/PageHeader';
+import { allUsersQuery, commentsQuery } from '../../queries/queries';
 import { commentOnPost } from '../../store/actions/productActions';
-import { commentsQuery, allUsersQuery } from '../../queries/queries';
+import PageHeader from '../decoration/PageHeader';
 
 const ProjectDetails = (props) => {
 
     const dispatch = useDispatch();
     const postId = props.match.params.id;
 
+    const [comment, setComment] = useState('');
+
     useFirestoreConnect([commentsQuery(postId), allUsersQuery()]);
 
+    const handleChange = (e) => {
+        setComment(e.target.value);
+    }
+
     const handleEnter = (e) => {
-        if (e.key === 'Enter') {
-            const comment = e.target.value;
+        //  setComment(e.target.value);
+        if (e.key === 'Enter' || e.type === 'click') {
             if (postId) {
                 if (!comment) {
                     return toast('comment must not be empty');
                 }
+                setComment('');
                 dispatch(commentOnPost(comment.trim(), postId.trim()));
 
             }
@@ -29,11 +36,7 @@ const ProjectDetails = (props) => {
     }
     const users = useSelector(state => state.firestore.ordered.users);
     const comments = useSelector(state => state.firestore.ordered.comments);
-
-    getUserProperty = (handle, propertyName) => {
-        const propertyValue = null;
-        console.log(users.map(u => u.handle === handle));
-    }
+    const currentUserHandle = useSelector(state => state.firebase.profile.handle);
 
     const { project } = props;
     if (project) {
@@ -56,14 +59,24 @@ const ProjectDetails = (props) => {
                         <span className="card-title">Comments</span>
                         <div className="input-field col s12">
                             <label htmlFor="comment">Comment on Post</label>
-                            <input id="comment" type="text" className="validate" onKeyDown={handleEnter} />
+                            <input id="comment" type="text" className="validate" onChange={handleChange} onKeyUp={handleEnter} value={comment} />
+                            <a href="#!" onClick={handleEnter}> <span className="material-icons right prefix">send</span></a>
                         </div>
                         <ul className="collection">
                             {comments && comments.map(c => {
                                 return (
-                                    <li className="collection-item avatar">
-                                        <img src={} alt="" class="circle" />
-                                        <span class="title">@{c.userHande}</span>
+                                    <li className="collection-item avatar" key={c.id}>
+                                        <img src={getUserProperty(c.userHandle, 'photoURL', users)} alt="" className="circle" />
+                                        <small className="cyan-text">&#64;{c.userHandle}</small>
+                                        <p>
+                                            <small className="date-text grey-text">{moment(c.createdAt.toDate()).format('LLL')}</small>
+                                        </p>
+                                        <p>
+                                            {c.body}
+                                        </p>
+                                        {currentUserHandle === c.userHandle &&
+                                            <a href="#!" className="secondary-content"><i className="material-icons red-text">delete</i></a>}
+
                                     </li>
 
                                 );
@@ -80,6 +93,14 @@ const ProjectDetails = (props) => {
             </div>
         )
     }
+}
+
+const getUserProperty = (handle, propertyName, users) => {
+    let propertyValue = null;
+    if (users) {
+        propertyValue = users.filter(u => u.handle === handle).map(u => u.photoURL)[0];
+    }
+    return propertyValue;
 }
 
 const mapStateToProps = (state, ownProps) => {
