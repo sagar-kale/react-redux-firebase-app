@@ -10,6 +10,8 @@ import { useSelector } from 'react-redux';
 import { isLoaded, isEmpty } from 'react-redux-firebase';
 import Loader from './components/layout/Loader';
 import OnlineUsers from './components/layout/OnlineUsers';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 function AuthIsLoaded({ children }) {
   const auth = useSelector(state => state.firebase.auth)
@@ -49,13 +51,24 @@ function App() {
             <Route path='/signup' component={SignUp} />
 
             <PrivateRoute>
-              <Route path='/project/:id' component={ProjectDetails} />
+              <Route path='/post/:id' component={ProjectDetails} />
               <Route path='/create' component={CreateProject} />
               <Route path='/chat' component={OnlineUsers} />
             </PrivateRoute>
           </Switch>
         </div>
       </AuthIsLoaded>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnVisibilityChange
+        draggable
+        pauseOnHover
+      />
     </BrowserRouter>
   );
 }

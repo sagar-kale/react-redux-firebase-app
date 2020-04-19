@@ -4,14 +4,10 @@ import { useSelector } from 'react-redux';
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 import { getQueryName } from 'redux-firestore/es/utils/query';
 import Loader from '../layout/Loader';
+import { notificationsQuery } from '../../queries/queries';
 
 const Notifications = () => {
 
-    const notificationsQuery = () => ({
-        collection: 'notifications',
-        limit: 5,
-        orderBy: ['time', 'desc']
-    });
     useFirestoreConnect(notificationsQuery);
 
     const error = useSelector(state => state.firestore.errors.byQuery[getQueryName(notificationsQuery())]);

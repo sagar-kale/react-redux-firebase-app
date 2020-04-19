@@ -11,7 +11,7 @@ const onlineUsersReducer = (state = initialState, action) => {
             return { ...state, isLoading: false, onlineUsers: action.onlineUsers }
 
         case 'USERS_FETCH_ERR':
-            console.log('create project error::', action.err);
+            console.error('create project error::', action.err);
             return { ...state, isLoading: false };
 
         default:

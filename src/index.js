@@ -34,6 +34,7 @@ const rrfConfig = {
        dispatch({ type: actionTypes.CLEAR_DATA, preserve: { ordered: ['projects'] } })
      }
    } */ // defined clear_data on signout action authActionos.js rather than here
+
 }
 const rrfProps = {
   firebase,

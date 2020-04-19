@@ -3,13 +3,11 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 import firebase from '../../config/firebaseConfig';
+import { allUsersQuery } from '../../queries/queries';
 
 const OnlineUsers = () => {
 
-    const allUsersQuery = () => ({
-        collection: 'users',
-        orderBy: ['createdAt', 'desc']
-    });
+
     useFirestoreConnect(allUsersQuery);
 
     const user = useSelector(state => state.firebase.profile);
@@ -17,8 +15,8 @@ const OnlineUsers = () => {
 
     const dispatch = useDispatch();
     const onlineUsers = useSelector(state => state.presence.onlineUsers);
-  
-   // const allUserAccessErrors = useSelector(state => state.firestore.errors.byQuery[allUsersQuery()]);
+
+    // const allUserAccessErrors = useSelector(state => state.firestore.errors.byQuery[allUsersQuery()]);
 
 
     useEffect(() => {

@@ -9,7 +9,8 @@ class SignUp extends Component {
         email: '',
         password: '',
         firstName: '',
-        lastName: ''
+        lastName: '',
+        handle:''
     }
 
     handleChange = (e) => {
@@ -39,6 +40,11 @@ class SignUp extends Component {
                     <div className="input-field">
                         <label htmlFor="email">Email</label>
                         <input type="email" id="email" onChange={this.handleChange} required />
+                    </div>
+                    <div className="input-field">
+                        <label htmlFor="username">Username</label>
+                        <input type="text" id="handle" onChange={this.handleChange} required />
+                        <small className="gray-text">You will be identified by this handle</small>
                     </div>
                     <div className="input-field">
                         <label htmlFor="password">Password</label>
