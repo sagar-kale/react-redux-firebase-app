@@ -1,4 +1,3 @@
-import { act } from "react-dom/test-utils";
 
 const initialState = {
     projects: [],
@@ -19,7 +18,19 @@ const projectReducer = (state = initialState, action) => {
         case 'LIKE_POST_SUCCESS':
             return { ...state, isLoading: false };
 
+        case 'UNLIKE_POST_SUCCESS':
+            return { ...state, isLoading: false };
+
         case 'COMMENT_POST_SUCCESS':
+            return { ...state, isLoading: false };
+
+        case 'COMMENT_DELETE':
+            return { ...state, isLoading: false };
+
+        case 'POST_DELETE':
+            return { ...state, isLoading: false };
+
+        case 'LIKE_DELETE':
             return { ...state, isLoading: false };
 
         case 'POST_ERROR':

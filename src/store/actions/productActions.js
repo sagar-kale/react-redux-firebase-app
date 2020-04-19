@@ -1,4 +1,4 @@
-import { buildError } from "../../constant";
+import { buildError, Errors } from "../../constant";
 
 export const createProject = (project) => {
 
@@ -38,7 +38,7 @@ const likePost = (likeCount, postId) => {
         const firestore = getFirestore();
         const user = getState().firebase.profile;
         // const
-//        console.log('under action', likeCount, user.handle, postId);
+        //        console.log('under action', likeCount, user.handle, postId);
 
         const likeDocument = firestore
             .collection('likes')
@@ -86,6 +86,59 @@ const likePost = (likeCount, postId) => {
     }
 }
 
+// unlike post
+
+const unlikePost = (postId) => {
+
+    return (dispatch, getState, { getFirestore }) => {
+        const firestore = getFirestore();
+        const user = getState().firebase.profile;
+
+        const likeDocument = firestore
+            .collection('likes')
+            .where('userHandle', '==', user.handle)
+            .where('postId', '==', postId)
+            .limit(1);
+
+        const postDocument = firestore.doc(`/projects/${postId}`);
+
+        let postData;
+
+        postDocument
+            .get()
+            .then((doc) => {
+                if (doc.exists) {
+                    postData = doc.data();
+                    postData.screamId = doc.id;
+                    return likeDocument.get();
+                } else {
+                    return postNotFoundDispatch(dispatch);
+                }
+            })
+            .then((data) => {
+                if (data.empty) {
+                    return dispatch({ type: 'POST_ERROR', err: buildError(400, 'Post not liked') });
+                } else {
+                    return firestore
+                        .doc(`/likes/${data.docs[0].id}`)
+                        .delete()
+                        .then(() => {
+                            postData.likeCount--;
+                            return postDocument.update({ likeCount: postData.likeCount });
+                        })
+                        .then(() => {
+                            dispatch({ type: 'UNLIKE_POST_SUCCESS' });
+                        });
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+                return generalErrorDispatch(dispatch, err);
+            });
+    }
+};
+
+// comment on post
 
 const commentOnPost = (comment, postId) => {
 
@@ -93,7 +146,7 @@ const commentOnPost = (comment, postId) => {
         const firestore = getFirestore();
         const user = getState().firebase.profile;
         // const
-       // console.log('under action comment', comment, user.handle, postId);
+        // console.log('under action comment', comment, user.handle, postId);
 
         const newComment = {
             body: comment.trim(),
@@ -102,7 +155,7 @@ const commentOnPost = (comment, postId) => {
             userHandle: user.handle,
             userImage: user.photoURL
         };
-       // console.log(newComment);
+        // console.log(newComment);
 
         firestore.doc(`/projects/${postId.trim()}`)
             .get()
@@ -126,4 +179,76 @@ const commentOnPost = (comment, postId) => {
     }
 }
 
-export { likePost, commentOnPost }
+// delete posted comment
+
+const deleteCommentFromPost = (commentId) => {
+
+    return (dispatch, getState, { getFirestore }) => {
+        const firestore = getFirestore();
+        const user = getState().firebase.profile;
+
+        //console.log('inside delete comment action', commentId);
+        const document = firestore.doc(`/comments/${commentId}`);
+        document
+            .get()
+            .then((doc) => {
+                if (!doc.exists) {
+                    return dispatch({ type: 'POST_ERROR', err: buildError(404, 'Comment not found') })
+                }
+                if (doc.data().userHandle !== user.handle) {
+                    return dispatch({ type: 'POST_ERROR', err: Errors.UNAUTHORISED })
+                } else {
+                    return document.delete();
+                }
+            })
+            .then(() => {
+                dispatch({ type: 'COMMENT_DELETE' });
+            })
+            .catch((err) => {
+                dispatch({ type: 'POST_ERROR', err });
+            });
+    }
+}
+
+// delete post
+
+const deletePost = (postId) => {
+
+    return (dispatch, getState, { getFirestore }) => {
+        const firestore = getFirestore();
+        const user = getState().firebase.profile;
+
+        //console.log('inside delete comment action', commentId);
+        const document = firestore.doc(`/projects/${postId}`);
+        document
+            .get()
+            .then((doc) => {
+                if (!doc.exists) {
+                    return dispatch({ type: 'POST_ERROR', err: buildError(404, 'Post not found') })
+                }
+                if (doc.data().userHandle !== user.handle) {
+                    return dispatch({ type: 'POST_ERROR', err: Errors.UNAUTHORISED })
+                } else {
+                    return document.delete();
+                }
+            })
+            .then(() => {
+                dispatch({ type: 'POST_DELETE' });
+            })
+            .catch((err) => {
+                dispatch({ type: 'POST_ERROR', err });
+            });
+    }
+}
+
+const postNotFoundDispatch = (dispatch) => {
+    return dispatch({ type: 'POST_ERROR', err: buildError(404, 'Post not found') });
+}
+
+const generalErrorDispatch = (dispatch, err) => {
+    return dispatch({ type: 'POST_ERROR', err });
+}
+
+
+
+export { likePost, commentOnPost, deleteCommentFromPost, unlikePost, deletePost };

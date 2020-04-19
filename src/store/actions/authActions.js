@@ -1,6 +1,6 @@
-import firebase from '../../config/firebaseConfig';
 import { actionTypes } from 'redux-firestore/es/constants';
-import { buildError, Errors } from '../../constant'
+import firebase from '../../config/firebaseConfig';
+import { buildError } from '../../constant';
 export const signInAction = (credential) => {
     return (dispatch) => {
         dispatch({ type: 'LOGIN_REQUEST' });

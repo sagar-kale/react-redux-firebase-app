@@ -5,7 +5,7 @@ import { firestoreConnect, useFirestoreConnect } from 'react-redux-firebase';
 import { toast } from 'react-toastify';
 import { compose } from 'redux';
 import { allUsersQuery, commentsQuery } from '../../queries/queries';
-import { commentOnPost } from '../../store/actions/productActions';
+import { commentOnPost, deleteCommentFromPost } from '../../store/actions/productActions';
 import PageHeader from '../decoration/PageHeader';
 
 const ProjectDetails = (props) => {
@@ -34,6 +34,14 @@ const ProjectDetails = (props) => {
             }
         }
     }
+
+    const deleteComment = (commentId) => {
+        if (commentId) {
+            dispatch(deleteCommentFromPost(commentId.trim()));
+        }
+    }
+
+
     const users = useSelector(state => state.firestore.ordered.users);
     const comments = useSelector(state => state.firestore.ordered.comments);
     const currentUserHandle = useSelector(state => state.firebase.profile.handle);
@@ -75,7 +83,7 @@ const ProjectDetails = (props) => {
                                             {c.body}
                                         </p>
                                         {currentUserHandle === c.userHandle &&
-                                            <a href="#!" className="secondary-content"><i className="material-icons red-text">delete</i></a>}
+                                            <a href="#!" className="secondary-content" onClick={() => deleteComment(c.id)}><i className="material-icons red-text">delete</i></a>}
 
                                     </li>
 
@@ -94,6 +102,8 @@ const ProjectDetails = (props) => {
         )
     }
 }
+
+
 
 const getUserProperty = (handle, propertyName, users) => {
     let propertyValue = null;

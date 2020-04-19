@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import { Link, withRouter } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { likePost } from '../../store/actions/productActions';
+import { likePost, unlikePost } from '../../store/actions/productActions';
 
 const ProjectSummary = withRouter((props) => {
 
@@ -25,7 +25,10 @@ const ProjectSummary = withRouter((props) => {
         if (user.isEmpty) {
             return props.history.push('/signin');
         }
-        dispatch(likePost(project.likeCount + 1, project.id));
+
+        if (isLiked(likes, user, project.id))
+            dispatch(unlikePost(project.id.trim()));
+        else dispatch(likePost(project.likeCount + 1, project.id));
     }
     useFirestoreConnect(fetchLikes(user.handle || ''));
 
@@ -49,13 +52,21 @@ const ProjectSummary = withRouter((props) => {
                     <p className="gray-text">{moment(project.createdAt.toDate()).calendar()}</p>
                 </div>
                 <div className="card-action">
-                    <a href="#!" onClick={handleClick}><i className="material-icons">{project.likeCount === 0 ? 'favorite_border' : 'favorite'}</i> {project.likeCount}</a>
+                    <a href='#!' onClick={handleClick}><i className="material-icons">{isLiked(likes, user, project.id) ? 'favorite' : 'favorite_border'}</i> {project.likeCount}</a>
                     <Link to='/'><i className="material-icons">comment</i> {project.commentCount}</Link>
                 </div>
             </div>
         </div >
     )
 });
+
+const isLiked = (likes, user, id) => {
+    if (likes && user && id) {
+        return !!likes.filter(like => like.userHandle === user.handle && id === like.postId).length;
+    }
+    return false;
+}
+
 
 const fetchLikes = (handle) => {
     const likeQuery = () => ({
