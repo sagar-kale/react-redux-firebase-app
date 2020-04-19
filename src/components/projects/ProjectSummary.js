@@ -34,7 +34,7 @@ const ProjectSummary = withRouter((props) => {
 
     const likes = useSelector(state => state.firestore.ordered.likes);
 
-    console.log('my given likes ', likes);
+    //console.log('my given likes ', likes);
 
 
 

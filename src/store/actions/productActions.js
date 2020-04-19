@@ -1,5 +1,7 @@
 import { buildError, Errors } from "../../constant";
 
+// create post
+
 export const createProject = (project) => {
 
     return (dispatch, getState, { getFirestore }) => {
@@ -20,7 +22,7 @@ export const createProject = (project) => {
         }).then((doc) => {
             return firestore.collection('notifications').add({
                 time: new Date(),
-                content: 'Added a new project',
+                content: 'Added a new Post',
                 user: user.firstName + ' ' + user.lastName
             });
         }).then(() => {
@@ -31,6 +33,8 @@ export const createProject = (project) => {
 
     }
 }
+
+// like post 
 
 const likePost = (likeCount, postId) => {
 
@@ -109,7 +113,7 @@ const unlikePost = (postId) => {
             .then((doc) => {
                 if (doc.exists) {
                     postData = doc.data();
-                    postData.screamId = doc.id;
+                    postData.postId = doc.id;
                     return likeDocument.get();
                 } else {
                     return postNotFoundDispatch(dispatch);

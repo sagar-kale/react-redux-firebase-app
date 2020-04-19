@@ -19,7 +19,7 @@ const authReducer = (state = initialState, action) => {
             return { ...state, ...action.user, authError: null, isLoading: false };
 
         case 'LOGIN_ERROR':
-            console.log('login err', action.err);
+            console.error('login err', action.err);
             return { ...state, authError: action.err, isLoading: false };
 
         case 'CURRENT_USER':
