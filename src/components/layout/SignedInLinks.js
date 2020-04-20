@@ -9,9 +9,11 @@ const SignedInLinks = (props) => {
 
     useEffect(() => {
         const M = window.M;
-        M.AutoInit();
-        var elems = document.querySelectorAll('.dropdown-trigger');
-        M.Dropdown.init(elems, { coverTrigger: false, constrainWidth: false });
+        //M.AutoInit();
+        let sidenav = document.querySelectorAll('.sidenav');
+        let dropdown = document.querySelectorAll('.dropdown-trigger');
+        M.Dropdown.init(dropdown, { coverTrigger: false, constrainWidth: false });
+        M.Sidenav.init(sidenav, {});
     }, []);
 
     const [totalNotifications, setTotalNotifications] = useState(0);
@@ -34,7 +36,7 @@ const SignedInLinks = (props) => {
             </ul>
             <ul className="right">
                 <li><a className='dropdown-trigger' href='#!' data-target='notifications'><span className="material-icons">notifications</span>
-                {totalNotifications !== 0 && <span className="new badge">{totalNotifications}</span>}</a></li>
+                    {totalNotifications !== 0 && <span className="new badge">{totalNotifications}</span>}</a></li>
             </ul>
             <ul id="slide-out" className="sidenav">
                 <li><div className="user-view">

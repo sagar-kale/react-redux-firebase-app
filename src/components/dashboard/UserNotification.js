@@ -1,11 +1,12 @@
 import moment from 'moment';
 import React, { Fragment, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useFirestoreConnect } from 'react-redux-firebase';
+import { useFirestoreConnect, isLoaded } from 'react-redux-firebase';
 import { Link, withRouter } from 'react-router-dom';
 import { userNotificationsQuery } from '../../queries/queries';
 import { markNotificationRead } from '../../store/actions/productActions';
 import { getPath } from '../../utils/helpers';
+import Loader from '../layout/Loader';
 
 const UserNotification = withRouter((props) => {
 
@@ -29,8 +30,12 @@ const UserNotification = withRouter((props) => {
         }
     }, [props, notifications]);
 
+    if (!isLoaded(notifications)) {
+        return <Loader />;
+    }
+
     return (
-        <div>
+        <Fragment>
             {notifications && notifications.length > 0 ? notifications.map(notification => {
                 return (
                     <li key={notification.id}>
@@ -53,7 +58,7 @@ const UserNotification = withRouter((props) => {
                     </Fragment>
                 </li>
             }
-        </div >
+        </Fragment >
     )
 });
 
