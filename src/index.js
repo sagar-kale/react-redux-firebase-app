@@ -13,7 +13,7 @@ import reducers from './store/reducers/reducers';
 
 const initialState = {} // set initial state here
 
-const composeEnhancers =  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose  // comment on production bbuild
+const composeEnhancers =  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;  // comment on production build
 
 const store = createStore(reducers,
   initialState,
