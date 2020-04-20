@@ -2,10 +2,11 @@ import moment from 'moment';
 import React, { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFirestoreConnect } from 'react-redux-firebase';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { getQueryName } from 'redux-firestore/es/utils/query';
 import { userNotificationsQuery } from '../../queries/queries';
 import { markNotificationRead } from '../../store/actions/productActions';
+import { isSafari, getPath } from '../../utils/helpers';
 
 const UserNotification = withRouter((props) => {
 
@@ -16,14 +17,11 @@ const UserNotification = withRouter((props) => {
     const error = useSelector(state => state.firestore.errors.byQuery[getQueryName(userNotificationsQuery(user.handle))]);
     const notifications = useSelector(state => state.firestore.ordered.user_notifications);
 
-    const [postId, setPostId] = useState();
+
     const handleClick = (e) => {
         let notificationIds = newNotifications(notifications);
         if (notificationIds?.length > 0)
             dispatch(markNotificationRead(notificationIds));
-        if (postId) {
-            props.history.push(`/post/${postId}`);
-        }
     }
 
     useEffect(() => {
@@ -33,25 +31,41 @@ const UserNotification = withRouter((props) => {
         }
     }, [props, notifications]);
 
-    const handlePostId = (id) => {
-        setPostId(id);
+    const safari = (notification) => {
+        return (
+            <a href={`post/${notification.postId}`} onClick={handleClick}>
+
+                <small className={`tiny material-icons left-align ${notification.read === false ? 'orange-text' : 'cyan-text'}`}>{isLike(notification.type) ? 'favorite' : 'chat'}</small>
+                <small className="pink-text"> {notification.sender} </small>
+                <small>{isLike(notification.type) ? 'liked' : 'commented on'} your post</small>
+                <small className="grey-text note-date">
+                    ( {moment(notification.createdAt.toDate()).fromNow()})
+                            </small>
+            </a>
+        )
     }
+
+    const other = (notification) => {
+        return (
+            <Link to={`${getPath(props.location.pathname)}/${notification.postId}`} onClick={handleClick}>
+
+                <small className={`tiny material-icons left-align ${notification.read === false ? 'orange-text' : 'cyan-text'}`}>{isLike(notification.type) ? 'favorite' : 'chat'}</small>
+                <small className="pink-text"> {notification.sender} </small>
+                <small>{isLike(notification.type) ? 'liked' : 'commented on'} your post</small>
+                <small className="grey-text note-date">
+                    ( {moment(notification.createdAt.toDate()).fromNow()})
+                            </small>
+            </Link>
+        )
+    }
+
 
     return (
         <div>
             {notifications && notifications.length > 0 ? notifications.map(notification => {
                 return (
                     <li key={notification.id}>
-
-                        <a href='#!' onClick={() => { handlePostId(notification.postId); handleClick() }}>
-
-                            <small className={`tiny material-icons left-align ${notification.read === false ? 'orange-text' : 'cyan-text'}`}>{isLike(notification.type) ? 'favorite' : 'chat'}</small>
-                            <small className="pink-text"> {notification.sender} </small>
-                            <small>{isLike(notification.type) ? 'liked' : 'commented on'} your post</small>
-                            <small className="grey-text note-date">
-                                ( {moment(notification.createdAt.toDate()).fromNow()})
-                            </small>
-                        </a>
+                        {isSafari() === true ? safari(notification) : other(notification)}
                     </li>
 
                 )

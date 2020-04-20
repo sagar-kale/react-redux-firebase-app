@@ -65,12 +65,6 @@ const ProjectDetails = (props) => {
 
                     <div className="card-content">
                         <span className="card-title">Comments</span>
-                        <div className="input-field col s12">
-                            <i onClick={handleEnter} className="material-icons prefix">send</i>
-                            <input id="comment" type="text" className="validate" onChange={handleChange} onKeyUp={handleEnter} value={comment} />
-
-                            <label htmlFor="comment">Comment on Post</label>
-                        </div>
                         <ul className="collection">
                             {comments && comments.map(c => {
                                 return (
@@ -91,6 +85,13 @@ const ProjectDetails = (props) => {
                                 );
                             })}
                         </ul>
+
+                        <div className="input-field col s12">
+                            <i onClick={handleEnter} className="material-icons prefix">send</i>
+                            <input id="comment" type="text" className="validate" onChange={handleChange} onKeyUp={handleEnter} value={comment} />
+
+                            <label htmlFor="comment">Post Comment</label>
+                        </div>
                     </div>
                 </div>
 
@@ -103,8 +104,6 @@ const ProjectDetails = (props) => {
         )
     }
 }
-
-
 
 const getUserProperty = (handle, propertyName, users) => {
     let propertyValue = null;

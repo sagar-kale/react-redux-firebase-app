@@ -53,7 +53,7 @@ const ProjectSummary = withRouter((props) => {
                 </div>
                 <div className="card-action">
                     <a href='#!' onClick={handleClick}><i className="material-icons">{isLiked(likes, user, project.id) ? 'favorite' : 'favorite_border'}</i> {project.likeCount}</a>
-                    <Link to='/'><i className="material-icons">comment</i> {project.commentCount}</Link>
+                    <Link to={`/post/${project.id}`}><i className="material-icons">comment</i> {project.commentCount}</Link>
                 </div>
             </div>
         </div >

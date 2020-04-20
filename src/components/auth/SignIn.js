@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { signInAction } from '../../store/actions/authActions';
 import ToggleButton from '../decoration/ToggleButton';
 class SignIn extends Component {
@@ -46,6 +46,7 @@ class SignIn extends Component {
                         <div className="red-text">
                             <p>{authError?.message}</p>
                         </div>
+                        New user ? <Link to="/signup" >Click here to Register</Link>
                     </div>
                 </form>
             </div>
