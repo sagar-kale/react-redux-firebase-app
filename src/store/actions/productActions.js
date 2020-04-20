@@ -83,7 +83,6 @@ const likePost = (likeCount, postId) => {
                 }
             })
             .catch((err) => {
-                console.error(err);
                 dispatch({ type: 'POST_ERROR', err });
             });
 
@@ -136,7 +135,6 @@ const unlikePost = (postId) => {
                 }
             })
             .catch((err) => {
-                console.error(err);
                 return generalErrorDispatch(dispatch, err);
             });
     }
@@ -176,7 +174,6 @@ const commentOnPost = (comment, postId) => {
                 dispatch({ type: 'COMMENT_POST_SUCCESS' });
             })
             .catch((err) => {
-                console.log(err);
                 dispatch({ type: 'POST_ERROR', err });
             });
 
