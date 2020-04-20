@@ -1,12 +1,11 @@
 import moment from 'moment';
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFirestoreConnect } from 'react-redux-firebase';
-import { withRouter, Link } from 'react-router-dom';
-import { getQueryName } from 'redux-firestore/es/utils/query';
+import { Link, withRouter } from 'react-router-dom';
 import { userNotificationsQuery } from '../../queries/queries';
 import { markNotificationRead } from '../../store/actions/productActions';
-import { isSafari, getPath } from '../../utils/helpers';
+import { getPath, isSafari } from '../../utils/helpers';
 
 const UserNotification = withRouter((props) => {
 
@@ -14,7 +13,7 @@ const UserNotification = withRouter((props) => {
     const dispatch = useDispatch();
 
     useFirestoreConnect(userNotificationsQuery(user.handle));
-    const error = useSelector(state => state.firestore.errors.byQuery[getQueryName(userNotificationsQuery(user.handle))]);
+    //const error = useSelector(state => state.firestore.errors.byQuery[getQueryName(userNotificationsQuery(user.handle))]);
     const notifications = useSelector(state => state.firestore.ordered.user_notifications);
 
 
