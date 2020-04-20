@@ -66,9 +66,9 @@ const ProjectDetails = (props) => {
                     <div className="card-content">
                         <span className="card-title">Comments</span>
                         <div className="input-field col s12">
-                            <label htmlFor="comment">Comment on Post</label>
                             <input id="comment" type="text" className="validate" onChange={handleChange} onKeyUp={handleEnter} value={comment} />
                             <a href="#!" onClick={handleEnter}> <span className="material-icons right prefix">send</span></a>
+                            <label htmlFor="comment">Comment on Post</label>
                         </div>
                         <ul className="collection">
                             {comments && comments.map(c => {
