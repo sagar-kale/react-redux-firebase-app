@@ -85,7 +85,7 @@ const ProjectDetails = (props) => {
                                             {c.body}
                                         </p>
                                         {currentUserHandle === c.userHandle &&
-                                            <a href="#!" className="secondary-content" onClick={() => deleteComment(c.id)}><i className="material-icons red-text">delete</i></a>}
+                                            <a href="#/" className="secondary-content" onClick={() => deleteComment(c.id)}><i className="tiny material-icons red-text">delete</i></a>}
 
                                     </li>
                                 );

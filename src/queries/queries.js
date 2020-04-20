@@ -3,7 +3,7 @@
 
 const commentsQuery = (postId) => ({
     collection: 'comments',
-    orderBy: ['createdAt', 'desc'],
+    orderBy: ['createdAt', 'asc'],
     where: ['postId', '==', postId]
 });
 
