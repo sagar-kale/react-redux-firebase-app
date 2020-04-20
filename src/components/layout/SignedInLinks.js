@@ -8,8 +8,9 @@ const SignedInLinks = (props) => {
 
     useEffect(() => {
         const M = window.M;
-        var elems = document.querySelectorAll('.sidenav');
-        M.Sidenav.init(elems, {});
+        M.AutoInit();
+        //  var elems = document.querySelectorAll('.sidenav');
+        //  M.Sidenav.init(elems, {});
     }, [])
 
 
@@ -25,6 +26,9 @@ const SignedInLinks = (props) => {
                 <li><NavLink className="waves-effect" to='/chat'>Chat</NavLink></li>
                 <li><a href="/" className="waves-effect" onClick={props.logOut}>Logout</a></li>
                 <li><NavLink to='/' className="btn btn-floating pink lighten-1 waves-effect">{user.initials}</NavLink></li>
+            </ul>
+            <ul className="right">
+                <li><a className='dropdown-trigger btn' href='#!' data-target='notifications'>Drop Me!</a></li>
             </ul>
             <ul id="slide-out" className="sidenav">
                 <li><div className="user-view">
@@ -42,6 +46,14 @@ const SignedInLinks = (props) => {
                 <li><div className="divider"></div></li>
                 <li><a href="!#" className="subheader">Extra Links</a></li>
                 <li><a className="waves-effect" href="#!">About Us</a></li>
+            </ul>
+            <ul id='notifications' className='dropdown-content'>
+                <li><a href="#!">one</a></li>
+                <li><a href="#!">two</a></li>
+                <li className="divider" tabindex="-1"></li>
+                <li><a href="#!">three</a></li>
+                <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
+                <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
             </ul>
         </div>
     )

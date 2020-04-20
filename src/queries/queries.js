@@ -22,4 +22,12 @@ const notificationsQuery = () => ({
     orderBy: ['time', 'desc']
 });
 
-export { commentsQuery, allUsersQuery, notificationsQuery };
+// fetching top 10 user notifications
+
+const userNotificationsQuery = () => ({
+    collection: 'user_notifications',
+    limit: 10,
+    orderBy: ['createdAt', 'desc']
+});
+
+export { commentsQuery, allUsersQuery, notificationsQuery, userNotificationsQuery };
