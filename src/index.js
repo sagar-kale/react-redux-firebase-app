@@ -13,7 +13,7 @@ import reducers from './store/reducers/reducers';
 
 const initialState = {} // set initial state here
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = compose; // window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose  // enable when u want to check redux
 
 const store = createStore(reducers,
   initialState,

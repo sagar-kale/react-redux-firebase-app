@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { logOut } from '../../store/actions/authActions';
@@ -14,7 +14,11 @@ const SignedInLinks = (props) => {
         M.Dropdown.init(elems, { coverTrigger: false, constrainWidth: false });
     }, []);
 
+    const [totalNotifications, setTotalNotifications] = useState(0);
 
+    const newNotifications = (newNotSize) => {
+        setTotalNotifications(newNotSize);
+    }
 
     const { user } = props;
     //console.log(user);
@@ -29,7 +33,8 @@ const SignedInLinks = (props) => {
                 <li><NavLink to='/' className="btn btn-floating pink lighten-1 waves-effect">{user.initials}</NavLink></li>
             </ul>
             <ul className="right">
-                <li><a className='dropdown-trigger' href='#!' data-target='notifications'><i className="material-icons right">notifications</i></a></li>
+                <li><a className='dropdown-trigger' href='#!' data-target='notifications'><span className="material-icons">notifications</span>
+                {totalNotifications !== 0 && <span className="new badge">{totalNotifications}</span>}</a></li>
             </ul>
             <ul id="slide-out" className="sidenav">
                 <li><div className="user-view">
@@ -49,7 +54,7 @@ const SignedInLinks = (props) => {
                 <li><a className="waves-effect" href="#!">About Us</a></li>
             </ul>
             <ul id='notifications' className='dropdown-content'>
-                <UserNotification user={user}/>
+                <UserNotification user={user} newNotifications={newNotifications} />
             </ul>
         </div>
     )
