@@ -56,13 +56,15 @@ const OnlineUsers = () => {
         switch (propertyName) {
             case 'FULLNAME':
                 return `${u[0].firstName}  ${u[0].lastName}`;
+            case 'photoURL':
+                return u[0].photoURL;
             default:
                 return;
         }
     }
     //setUsers(usrs);
 
-    //console.log('user status', onlineUsers);
+    // console.log('user status', onlineUsers);
 
     return (
         <div className="container dashboard">
@@ -78,11 +80,10 @@ const OnlineUsers = () => {
                                         return (
                                             <li key={ou.uid}>
                                                 <div className="row">
-                                                    <div className="col s3">
-                                                        <img className="circle" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_05.jpg" alt="avatar" />
-
+                                                    <div className="col s3 m2 l4">
+                                                        <img height="60" className="circle avatar" src={getPropertyValue(ou.uid, 'photoURL')} alt="avatar" />
                                                     </div>
-                                                    <div className="col s9">
+                                                    <div className="col s9 m10 l8">
                                                         <span className="pink-text">{ou && getPropertyValue(ou.uid, 'FULLNAME')}</span>
                                                     </div>
                                                     <span className={`note-date ${ou && getClassByStatus(ou.status)}`}>
@@ -117,7 +118,7 @@ const OnlineUsers = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 
 }
