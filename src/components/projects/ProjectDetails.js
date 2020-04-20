@@ -71,25 +71,22 @@ const ProjectDetails = (props) => {
                             <a href="#!" onClick={handleEnter}> <span className="material-icons right prefix">send</span></a>
                         </div>
                         <ul className="collection">
-                            {comments && comments.map(c => {    
+                            {comments && comments.map(c => {
                                 return (
-                                    <div>
-                                        <li className="collection-item avatar" key={c.id}>
-                                            <img src={getUserProperty(c.userHandle, 'photoURL', users)} alt="" className="circle" />
-                                            <small className="cyan-text">&#64;{c.userHandle}</small>
-                                            <p>
-                                                <small className="date-text grey-text">{moment(c.createdAt.toDate()).format('LLL')}</small>
-                                            </p>
-                                            <p>
-                                                {c.body}
-                                            </p>
-                                            {currentUserHandle === c.userHandle &&
-                                                <a href="#!" className="secondary-content" onClick={() => deleteComment(c.id)}><i className="material-icons red-text">delete</i></a>}
 
-                                        </li>
-                                     
-                                    </div>
+                                    <li className="collection-item avatar" key={c.id}>
+                                        <img src={getUserProperty(c.userHandle, 'photoURL', users)} alt="" className="circle" />
+                                        <small className="cyan-text">&#64;{c.userHandle}</small>
+                                        <p>
+                                            <small className="date-text grey-text">{moment(c.createdAt.toDate()).format('LLL')}</small>
+                                        </p>
+                                        <p>
+                                            {c.body}
+                                        </p>
+                                        {currentUserHandle === c.userHandle &&
+                                            <a href="#!" className="secondary-content" onClick={() => deleteComment(c.id)}><i className="material-icons red-text">delete</i></a>}
 
+                                    </li>
                                 );
                             })}
                         </ul>

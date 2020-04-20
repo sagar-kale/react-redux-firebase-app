@@ -1,45 +1,62 @@
 import moment from 'moment';
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
+import React, { Fragment } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useFirestoreConnect } from 'react-redux-firebase';
 import { getQueryName } from 'redux-firestore/es/utils/query';
 import { userNotificationsQuery } from '../../queries/queries';
-import Loader from '../layout/Loader';
+import { markNotificationRead } from '../../store/actions/productActions';
 
-const UserNotification = () => {
+const UserNotification = (props) => {
 
-    useFirestoreConnect(userNotificationsQuery);
+    const { user } = props;
+    const dispatch = useDispatch();
 
-    const error = useSelector(state => state.firestore.errors.byQuery[getQueryName(userNotificationsQuery())]);
-    const notifications = useSelector(state => state.firestore.ordered.notifications);
+    useFirestoreConnect(userNotificationsQuery(user.handle));
+    const error = useSelector(state => state.firestore.errors.byQuery[getQueryName(userNotificationsQuery(user.handle))]);
+    const notifications = useSelector(state => state.firestore.ordered.user_notifications);
 
-    if (!isLoaded(notifications) && !error) return <Loader />
+    const handleClick = (e) => {
+        let notificationIds = notifications
+            .filter((not) => !not.read)
+            .map((not) => not.id);
+        if (notificationIds?.length > 0)
+            dispatch(markNotificationRead(notificationIds));
+    }
 
     return (
-        <div className="section">
-            <div className="card z-depth-0">
-                <div className="card-content">
-                    <span className="card-title">Notifications</span>
-                    <ul className="notifications">
-                        {!notifications && error && <li> <blockquote> <span className="red-text">{error.code}</span>
-                            <div className="grey-text note-date">You need to login in order to see the notifications</div>
-                        </blockquote></li>}
-                        {notifications && notifications.map(notification => {
-                            return (
-                                <li key={notification.id}>
-                                    <span className="pink-text">{notification.user} </span>
-                                    <span>{notification.content}</span>
-                                    <div className="grey-text note-date">
-                                        {moment(notification.time.toDate()).fromNow()}
-                                    </div>
-                                </li>
-                            )
-                        })}
-                    </ul>
-                </div>
-            </div>
-        </div>
+        <div className="striped">
+            {notifications && notifications.length > 0 ? notifications.map(notification => {
+                return (
+                    <li key={notification.id}>
+
+                        <a href="#!" onClick={handleClick}>
+
+                            <span className={`tiny material-icons left-align ${notification.read === false ? 'orange-text' : 'cyan-text'}`}>{isLike(notification.type) ? 'favorite' : 'chat'}</span>
+                            <span className="pink-text"> {notification.sender} </span>
+                            <span>{isLike(notification.type) ? 'liked' : 'commented on'} your post</span>
+                            <span className="grey-text note-date">
+                                ( {moment(notification.createdAt.toDate()).fromNow()})
+                            </span>
+                        </a>
+                    </li>
+
+                )
+            }) :
+                <li>
+                    <Fragment >
+                        <Fragment><span className="card-content pink-text mt4">No new notifications</span></Fragment>
+                    </Fragment>
+                </li>
+            }
+        </div >
     )
+}
+
+const isLike = (val) => {
+    if (val) {
+        return val === 'like';
+    }
+    return false;
 }
 
 export default UserNotification;

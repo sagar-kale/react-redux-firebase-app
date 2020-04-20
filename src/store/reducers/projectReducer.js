@@ -33,6 +33,12 @@ const projectReducer = (state = initialState, action) => {
         case 'LIKE_DELETE':
             return { ...state, isLoading: false };
 
+        case 'NO_NOTIFICATION':
+            return { ...state, isLoading: false };
+
+        case 'NOTIFICATION_MARK_SUCCESS':
+            return { ...state, isLoading: false };
+
         case 'POST_ERROR':
             console.error('post collection  error::', action.err);
             return { ...state, isLoading: false, postError: action.err };

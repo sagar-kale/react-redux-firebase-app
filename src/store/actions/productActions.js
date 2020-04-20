@@ -202,10 +202,19 @@ const deleteCommentFromPost = (commentId) => {
                 if (doc.data().userHandle !== user.handle) {
                     return dispatch({ type: 'POST_ERROR', err: Errors.UNAUTHORISED })
                 } else {
+                    firestore.doc(`/projects/${doc.data().postId}`)
+                        .get()
+                        .then((doc) => {
+                            if (!doc.exists) {
+                                dispatch({ type: 'POST_ERROR', err: buildError(404, 'Post not found while decrementing comment') })
+                            }
+                            doc.ref.update({ commentCount: doc.data().commentCount - 1 });
+                        });
                     return document.delete();
                 }
             })
             .then(() => {
+
                 dispatch({ type: 'COMMENT_DELETE' });
             })
             .catch((err) => {
@@ -245,6 +254,32 @@ const deletePost = (postId) => {
     }
 }
 
+// mark notificaton read
+
+const markNotificationRead = (notificationIds) => {
+
+    return (dispatch, getState, { getFirestore }) => {
+        const db = getFirestore();
+        let batch = db.batch();
+        if (notificationIds && notificationIds.length === 0) {
+            return dispatch({ type: 'NO_NOTIFICATION' });
+        }
+        notificationIds.forEach((notificationId) => {
+            const notification = db.doc(`/user_notifications/${notificationId}`);
+            batch.update(notification, { read: true });
+        });
+        batch
+            .commit()
+            .then(() => {
+                dispatch({ type: 'NOTIFICATION_MARK_SUCCESS' });
+            })
+            .catch((err) => {
+                console.error(err);
+                return generalErrorDispatch(dispatch, err);
+            });
+    }
+}
+
 const postNotFoundDispatch = (dispatch) => {
     return dispatch({ type: 'POST_ERROR', err: buildError(404, 'Post not found') });
 }
@@ -255,4 +290,4 @@ const generalErrorDispatch = (dispatch, err) => {
 
 
 
-export { likePost, commentOnPost, deleteCommentFromPost, unlikePost, deletePost };
+export { likePost, commentOnPost, deleteCommentFromPost, unlikePost, deletePost, markNotificationRead };

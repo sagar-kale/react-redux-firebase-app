@@ -24,8 +24,9 @@ const notificationsQuery = () => ({
 
 // fetching top 10 user notifications
 
-const userNotificationsQuery = () => ({
+const userNotificationsQuery = (handle) => ({
     collection: 'user_notifications',
+    where: ['recipient', '==', handle],
     limit: 10,
     orderBy: ['createdAt', 'desc']
 });

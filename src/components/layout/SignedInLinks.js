@@ -3,15 +3,16 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { logOut } from '../../store/actions/authActions';
 import { UserStatus } from './UserStatus';
+import UserNotification from '../dashboard/UserNotification';
 
 const SignedInLinks = (props) => {
 
     useEffect(() => {
         const M = window.M;
         M.AutoInit();
-        //  var elems = document.querySelectorAll('.sidenav');
-        //  M.Sidenav.init(elems, {});
-    }, [])
+        var elems = document.querySelectorAll('.dropdown-trigger');
+        M.Dropdown.init(elems, { coverTrigger: false, constrainWidth: false });
+    }, []);
 
 
 
@@ -28,7 +29,7 @@ const SignedInLinks = (props) => {
                 <li><NavLink to='/' className="btn btn-floating pink lighten-1 waves-effect">{user.initials}</NavLink></li>
             </ul>
             <ul className="right">
-                <li><a className='dropdown-trigger btn' href='#!' data-target='notifications'>Drop Me!</a></li>
+                <li><a className='dropdown-trigger' href='#!' data-target='notifications'><i className="material-icons right">notifications</i></a></li>
             </ul>
             <ul id="slide-out" className="sidenav">
                 <li><div className="user-view">
@@ -48,12 +49,7 @@ const SignedInLinks = (props) => {
                 <li><a className="waves-effect" href="#!">About Us</a></li>
             </ul>
             <ul id='notifications' className='dropdown-content'>
-                <li><a href="#!">one</a></li>
-                <li><a href="#!">two</a></li>
-                <li className="divider" tabindex="-1"></li>
-                <li><a href="#!">three</a></li>
-                <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
-                <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
+                <UserNotification user={user}/>
             </ul>
         </div>
     )
