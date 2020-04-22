@@ -12,6 +12,7 @@ import Loader from './components/layout/Loader';
 import OnlineUsers from './components/layout/OnlineUsers';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import IosNotification from './components/dashboard/IosNotification';
 
 function AuthIsLoaded({ children }) {
   const auth = useSelector(state => state.firebase.auth)
@@ -54,6 +55,7 @@ function App() {
               <Route path='/post/:id' component={ProjectDetails} />
               <Route path='/create' component={CreateProject} />
               <Route path='/chat' component={OnlineUsers} />
+              <Route path='/inote' component={IosNotification} />
             </PrivateRoute>
           </Switch>
         </div>

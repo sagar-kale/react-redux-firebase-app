@@ -12,8 +12,8 @@ const SignedOutLinks = () => {
     return (
         <div>
             <ul className="right hide-on-med-and-down">
-                <li><NavLink className="waves-effect" to='/signin'>Login</NavLink></li>
-                <li><NavLink className="waves-effect" to='/signup'>Sign Up</NavLink></li>
+                <li activeclassname="active"><NavLink className="waves-effect" to='/signin'>Login</NavLink></li>
+                <li activeclassname="active"><NavLink className="waves-effect" to='/signup'>Sign Up</NavLink></li>
 
             </ul>
             <ul id="slide-out" className="sidenav">

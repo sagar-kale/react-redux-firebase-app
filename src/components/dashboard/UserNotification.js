@@ -1,37 +1,19 @@
 import moment from 'moment';
-import React, { Fragment, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useFirestoreConnect, isLoaded } from 'react-redux-firebase';
+import React, { Fragment } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import { userNotificationsQuery } from '../../queries/queries';
 import { markNotificationRead } from '../../store/actions/productActions';
-import { getPath } from '../../utils/helpers';
-import Loader from '../layout/Loader';
+import { getPath, isLike, newNotifications } from '../../utils/helpers';
 
 const UserNotification = withRouter((props) => {
 
-    const { user } = props;
+    const { notifications } = props;
     const dispatch = useDispatch();
-
-    useFirestoreConnect(userNotificationsQuery(user.handle));
-    // const error = useSelector(state => state.firestore.errors.byQuery[getQueryName(userNotificationsQuery(user.handle))]);
-    const notifications = useSelector(state => state.firestore.ordered.user_notifications);
 
     const handleClick = (e) => {
         let notificationIds = newNotifications(notifications);
         if (notificationIds?.length > 0)
             dispatch(markNotificationRead(notificationIds));
-    }
-
-    useEffect(() => {
-        if (notifications) {
-            const length = newNotifications(notifications).length;
-            props.newNotifications(length || 0);
-        }
-    }, [props, notifications]);
-
-    if (!isLoaded(notifications)) {
-        return <Loader />;
     }
 
     return (
@@ -61,20 +43,5 @@ const UserNotification = withRouter((props) => {
         </Fragment >
     )
 });
-
-const isLike = (val) => {
-    if (val) {
-        return val === 'like';
-    }
-    return false;
-}
-
-const newNotifications = (notifications) => {
-    if (notifications) {
-        return notifications
-            .filter((not) => !not.read)
-            .map((not) => not.id);
-    }
-}
 
 export default UserNotification;

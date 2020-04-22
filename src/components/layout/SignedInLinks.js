@@ -1,42 +1,55 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
+import { useFirestoreConnect } from 'react-redux-firebase';
 import { NavLink } from 'react-router-dom';
+import { userNotificationsQuery } from '../../queries/queries';
 import { logOut } from '../../store/actions/authActions';
-import { UserStatus } from './UserStatus';
+import { isSafari, newNotifications } from '../../utils/helpers';
 import UserNotification from '../dashboard/UserNotification';
+import { UserStatus } from './UserStatus';
 
 const SignedInLinks = (props) => {
 
+    const [totalNotifications, setTotalNotifications] = useState(0);
+    const { user } = props;
+
+
+    useFirestoreConnect(userNotificationsQuery(user.handle));
+    // const error = useSelector(state => state.firestore.errors.byQuery[getQueryName(userNotificationsQuery(user.handle))]);
+    const notifications = useSelector(state => state.firestore.ordered.user_notifications);
+
     useEffect(() => {
         const M = window.M;
-        //M.AutoInit();
-        let sidenav = document.querySelectorAll('.sidenav');
+        M.AutoInit();
+        // let sidenav = document.querySelectorAll('.sidenav');
         let dropdown = document.querySelectorAll('.dropdown-trigger');
         M.Dropdown.init(dropdown, { coverTrigger: false, constrainWidth: false });
-        M.Sidenav.init(sidenav, {});
-    }, []);
+        // M.Sidenav.init(sidenav, {});
 
-    const [totalNotifications, setTotalNotifications] = useState(0);
+        if (notifications) {
+            const length = newNotifications(notifications).length;
+            setTotalNotifications(length || 0)
+        }
+    }, [notifications]);
 
-    const newNotifications = (newNotSize) => {
-        setTotalNotifications(newNotSize);
-    }
-
-    const { user } = props;
-    //console.log(user);
     return (
 
         <div>
             {user && <UserStatus user={user} />}
             <ul className="right hide-on-med-and-down">
-                <li><NavLink className="waves-effect" to='/create'>New Post</NavLink></li>
-                <li><NavLink className="waves-effect" to='/chat'>Chat</NavLink></li>
-                <li><a href="/" className="waves-effect" onClick={props.logOut}>Logout</a></li>
-                <li><NavLink to='/' className="btn btn-floating pink lighten-1 waves-effect">{user.initials}</NavLink></li>
+                <li activeclassname="active"><NavLink className="waves-effect" to='/create'>New Post</NavLink></li>
+                <li activeclassname="active"><NavLink className="waves-effect" to='/chat'>Chat</NavLink></li>
+                <li activeclassname="active"><a href="/" className="waves-effect" onClick={props.logOut}>Logout</a></li>
+                <li activeclassname="active"><NavLink to='/' className="btn btn-floating pink lighten-1 waves-effect">{user.initials}</NavLink></li>
             </ul>
             <ul className="right">
-                <li><a className='dropdown-trigger' href='#!' data-target='notifications'><span className="material-icons">notifications</span>
-                    {totalNotifications !== 0 && <span className="new badge">{totalNotifications}</span>}</a></li>
+                {isSafari() === false ?
+                    <li activeclassname="active"><a className='dropdown-trigger' href='#!' data-target='notifications'><span className="material-icons">notifications</span>
+                        {totalNotifications !== 0 && <span className="new badge">{totalNotifications}</span>}</a></li>
+                    : <li activeclassname="active"><NavLink to='/inote'>
+                        <span className="material-icons">notifications</span>
+                        {totalNotifications !== 0 && <span className="new badge">{totalNotifications}</span>}
+                    </NavLink></li>}
             </ul>
             <ul id="slide-out" className="sidenav">
                 <li><div className="user-view">
@@ -56,7 +69,7 @@ const SignedInLinks = (props) => {
                 <li><a className="waves-effect" href="#!">About Us</a></li>
             </ul>
             <ul id='notifications' className='dropdown-content'>
-                <UserNotification user={user} newNotifications={newNotifications} />
+                <UserNotification user={user} notifications={notifications} />
             </ul>
         </div>
     )

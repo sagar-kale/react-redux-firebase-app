@@ -8,4 +8,19 @@ const getPath = (path) => {
     return path && path.includes('/post/') ? '/post' : '/post';
 }
 
-export { isSafari, getPath };
+const isLike = (val) => {
+    if (val) {
+        return val === 'like';
+    }
+    return false;
+}
+
+const newNotifications = (notifications) => {
+    if (notifications) {
+        return notifications
+            .filter((not) => !not.read)
+            .map((not) => not.id);
+    }
+}
+
+export { isSafari, getPath, isLike, newNotifications };
