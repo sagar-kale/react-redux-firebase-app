@@ -57,6 +57,9 @@ const ProjectDetails = (props) => {
                         <p>{project.content}</p>
                     </div>
                     <div className="card-action gray lighten-4 gray-text">
+                        <i className="material-icons cyan-text">favorite</i> {project.likeCount}
+                        <i className="material-icons cyan-text" style={{marginLeft:'14px'}}>comment</i> {project.commentCount}
+
                         <div>Posted by {project.authorFirstName} {project.authorLastName}</div>
                         <div>{moment(project.createdAt.toDate()).calendar()}</div>
                     </div>

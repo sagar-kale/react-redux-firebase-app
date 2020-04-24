@@ -12,8 +12,9 @@ import * as serviceWorker from './serviceWorker';
 import reducers from './store/reducers/reducers';
 
 const initialState = {} // set initial state here
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;  // comment on production build
+let composeEnhancers;
+if (process.env.NODE_ENV === 'production') composeEnhancers = compose;
+else composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;  // comment on production build
 
 const store = createStore(reducers,
   initialState,

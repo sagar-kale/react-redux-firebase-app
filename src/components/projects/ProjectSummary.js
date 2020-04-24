@@ -52,8 +52,8 @@ const ProjectSummary = withRouter((props) => {
                     <p className="gray-text">{moment(project.createdAt.toDate()).calendar()}</p>
                 </div>
                 <div className="card-action">
-                    <a href='#!' onClick={handleClick}><i className="material-icons">{isLiked(likes, user, project.id) ? 'favorite' : 'favorite_border'}</i> {project.likeCount}</a>
-                    <Link to={`/post/${project.id}`}><i className="material-icons">comment</i> {project.commentCount}</Link>
+                    <a href='#!' className="cyan-text" onClick={handleClick}><i className="material-icons">{isLiked(likes, user, project.id) ? 'favorite' : 'favorite_border'}</i> {project.likeCount}</a>
+                    <Link to={`/post/${project.id}`} className="cyan-text"><i className="material-icons">comment</i> {project.commentCount}</Link>
                 </div>
             </div>
         </div >
