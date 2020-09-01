@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import { Link, withRouter } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { likePost, unlikePost } from '../../store/actions/productActions';
+import { likePost, unlikePost, deletePost } from '../../store/actions/productActions';
 
 const ProjectSummary = withRouter((props) => {
 
@@ -30,14 +30,14 @@ const ProjectSummary = withRouter((props) => {
             dispatch(unlikePost(project.id.trim()));
         else dispatch(likePost(project.likeCount + 1, project.id));
     }
+
+    const removePost = () => {
+        if (user.handle === project.userHandle)
+            dispatch(deletePost(project.id.trim()));
+    }
     useFirestoreConnect(fetchLikes(user.handle || ''));
 
     const likes = useSelector(state => state.firestore.ordered.likes);
-
-    //console.log('my given likes ', likes);
-
-
-
 
     return (
 
@@ -54,6 +54,7 @@ const ProjectSummary = withRouter((props) => {
                 <div className="card-action">
                     <a href='#!' className="cyan-text" onClick={handleClick}><i className="material-icons">{isLiked(likes, user, project.id) ? 'favorite' : 'favorite_border'}</i> {project.likeCount}</a>
                     <Link to={`/post/${project.id}`} className="cyan-text"><i className="material-icons">comment</i> {project.commentCount}</Link>
+                    {user.handle === project.userHandle && <Link to='#!' className="red-text" onClick={removePost}><i className="material-icons">delete</i></Link>}
                 </div>
             </div>
         </div >
