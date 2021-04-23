@@ -10,6 +10,7 @@ import firebase from './config/firebaseConfig';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import reducers from './store/reducers/reducers';
+import reportWebVitals from './reportWebVitals';
 
 const initialState = {} // set initial state here
 let composeEnhancers;
@@ -59,3 +60,5 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
+reportWebVitals();

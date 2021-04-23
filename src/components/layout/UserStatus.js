@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import IdleTimer from 'react-idle-timer';
 import firebase from '../../config/firebaseConfig';
@@ -7,7 +8,6 @@ export const UserStatus = (props) => {
     const [timeout] = useState(1000 * 5 * 60);
 
     const [away, setAway] = useState(false);
-
 
     let idleTimer = null;
 
