@@ -18,7 +18,7 @@ const Navbar = () => {
                 <div className="container" >
 
                     <a href="/#" data-target="slide-out" className="sidenav-trigger"><i className="material-icons">menu</i></a>
-                    <Link to='/' className="brand-logo" > Firebase App </Link>
+                    <Link to='/' className="brand-logo" > ChittyChat </Link>
                     {user.isEmpty ? <SignedOutLinks /> : <SignedInLinks user={user} />}
                 </div>
             </nav>
