@@ -5,7 +5,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  background: url("./img/bg.jpg") no-repeat;
+  background: url("./img/bg.jpg") repeat round;
   background-size: 100%;
   min-height: 100%;
   background-color: #89dfef4d;
