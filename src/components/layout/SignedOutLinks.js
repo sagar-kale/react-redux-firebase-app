@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import officeImg from '../../img/office.jpg';
+import picLogo from '../../img/yuna.jpg';
 
 const SignedOutLinks = () => {
 
@@ -19,9 +21,9 @@ const SignedOutLinks = () => {
             <ul id="slide-out" className="sidenav">
                 <li><div className="user-view">
                     <div className="background">
-                        <img src="img/office.jpg" alt="office" />
+                        <img src={officeImg} alt="office" />
                     </div>
-                    <img className="circle" src="img/yuna.jpg" alt="yuna" />
+                    <img className="circle" src={picLogo} alt="yuna" />
                     <span className="white-text name">Welcome Guest</span>
                 </div></li>
                 <li><NavLink className="waves-effect sidenav-close" to='/'>Home</NavLink></li>
